@@ -218,7 +218,7 @@ def  map_tree_to_df ( H_clustering_tree ):
    
 ########################################################################################
 
-max_n_clusters = 25
+max_n_clusters =  25
 
 
 
@@ -277,6 +277,10 @@ pdline( logfile, char='#' )
 #############  samples 
 
 dict_all_samples_dataframe_dicts = {}
+
+
+samples_max_clustering_size_list = []
+
 
 
 for sample in sample_list:

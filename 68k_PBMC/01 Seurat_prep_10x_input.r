@@ -1,5 +1,5 @@
 
-# https://github.com/satijalab/seurat/issues/4096
+
 # https://satijalab.org/seurat/reference/readmtx
 
 ######################################################
@@ -24,7 +24,6 @@ features_dsn = paste0 ( data_path, '/', 'genes.tsv' )
 cells_dsn = paste0 ( data_path, '/', 'barcodes.tsv' ) 
 
 
-# rds_out_dsn = paste0 (   data_path, '/', "Seurat_prep_10x_input.rds" )
 dict_matrix_dsn =  paste0 (   data_path, '/', "Seurat_matrix_dict.pkl" )
 
 ########################################################################################
@@ -57,5 +56,3 @@ list_out = list  ( "counts" = counts,  "genes" = genes, "cells" = cells  )
 
 
 py_save_object ( list_out, dict_matrix_dsn )
-
-# saveRDS ( seurat_object, rds_out_dsn )  
