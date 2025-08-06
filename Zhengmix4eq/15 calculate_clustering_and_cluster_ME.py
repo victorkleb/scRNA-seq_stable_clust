@@ -1,6 +1,5 @@
 
 
-
 ########################################################## 
 #                                                        #
 #      calculate_clustering_and_cluster_ME.py            # 
@@ -250,7 +249,7 @@ def cell_ME_stats ( df_clusterings_all_cells, dict_clusterings_renamed_samples )
 ########################################################################################
 
 ##### potential limit which MAY BE less than the number of computed clusters
-max_clusters = 25
+max_clusters = 10 # 25 for large, generally, 10 for small
 
 
 
@@ -284,7 +283,21 @@ pdline( logfile, char='=' )
 df_clusterings_all_cells = dict_all_cells_dataframes ['df_clusterings']
 clusterings_list_all = df_clusterings_all_cells.columns.values.tolist() 
 
-max_clusters_analy = min ( max_clusters, max ( clusterings_list_all ) ) 
+
+
+#### find upper bound on maximum clustering size - clusterings must be available for all samples
+
+samples_max_clusterings_list = []
+
+for sample in sample_list:
+  df_clustering_sample = dict_all_samples_dataframe_clustering_dicts [ sample ] ['df_clusterings'] 
+  sample_clusterings_list = df_clustering_sample.columns.values.tolist()
+  sample_max_clustering = max ( sample_clusterings_list )
+  samples_max_clusterings_list.append ( sample_max_clustering )  
+
+samples_max_clusterings_list_min = min ( samples_max_clusterings_list )
+
+max_clusters_analy = min ( max_clusters, max ( clusterings_list_all ), samples_max_clusterings_list_min ) 
 print ( '\n\n max_clusters_analy: ', max_clusters_analy, file=logfile )
 
 
@@ -293,8 +306,10 @@ print ( '\n\n clusterings_list: ', clusterings_list, file=logfile )
 pdline( logfile )
 
 
-######  for each half-cell sample, 
-######  calculate a permutation of the cells, to be used to estimate misclassification rates for random clusterings
+
+
+#####  for each half-cell sample, 
+#####  calculate a permutation of the cells, to be used to estimate misclassification rates for random clusterings
 
 dict_of_dicts_sample_permute_cells = {}
 
@@ -316,8 +331,8 @@ pdline( logfile,  char='=' )
  
 
  
-######  apply permutations to clusterings of the samples
-###### create dict_all_samples_PERMUTED_clustering_dfs
+####  apply permutations to clusterings of the samples
+#### create dict_all_samples_PERMUTED_clustering_dfs
 
 dict_all_samples_PERMUTED_clustering_dfs = {}
 
@@ -370,7 +385,7 @@ dict_ME_data = {'dict_clusterings_renamed_samples':dict_clusterings_renamed_samp
     
 pdline( logfile, char='#' )    
  
-#########
+#######
 
 
 end_time = time.time()

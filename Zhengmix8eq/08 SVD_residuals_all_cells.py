@@ -1,6 +1,5 @@
 
 
-
  
 ####################################
 #                                  #
@@ -37,7 +36,7 @@ pd.set_option('display.max_columns', 30)
 
 data_folder = r"C:/scRNA_seq/stable_clusterings/"
 
-data_subfolder = "Zhengmix4eq"
+data_subfolder = "Zhengmix8eq"
 data_path = Path ( data_folder + data_subfolder )
 
 ######################################################################################
@@ -95,7 +94,7 @@ f.close()
 estim_ncp_dim = int ( estim_ncp_value[ 'ncp' ] )
 print (  '\n\n CALCULATED  estim_ncp_dim: ', estim_ncp_dim , file=logfile )
 
-# estim_ncp_dim = 291
+# estim_ncp_dim = 180
 # print (  '\n\n MANUAL OVERRIDE estim_ncp_dim: ', estim_ncp_dim , file=logfile )
 
 #####################

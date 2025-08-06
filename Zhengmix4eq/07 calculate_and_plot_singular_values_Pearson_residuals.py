@@ -39,8 +39,7 @@ pd.set_option('display.max_columns', 30)
 
 data_folder = r"C:/scRNA_seq/stable_clusterings/"
 
-data_subfolder = "Zhengmix8eq"
-
+data_subfolder = "Zhengmix4eq"
 data_path = Path ( data_folder + data_subfolder )
 
 ######################################################################################

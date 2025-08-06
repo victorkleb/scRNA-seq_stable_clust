@@ -252,8 +252,8 @@ def H_cluster_tree ( aff_array_csr, cell_list ):
         
 ########################################################################################    
 
-min_cluster_size_parm =  50 #200  #### 50 for small data sets (Zhengmix4/8eq, monocytes) 200 for others
-max_depth_search_parm =  6 # 10   #### 6 for small, 10 for large
+min_cluster_size_parm =   50 # 200  #### 50 for small data sets (Zhengmix4/8eq, monocytes) 200 for others
+max_depth_search_parm =   6 # 10   #### 6 for small, 10 for large
 
  
 start_time = time.time()
