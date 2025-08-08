@@ -45,7 +45,7 @@ def comma_fmt (x):
   
 #######################################################################################
 
-selected_clustering = 13
+selected_clustering = 10
 ch_sel_cl = str ( selected_clustering )
 
 sequence = 2
