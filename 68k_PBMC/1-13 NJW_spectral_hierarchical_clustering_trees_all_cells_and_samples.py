@@ -5,6 +5,10 @@
 #### $env:OMP_NUM_THREADS=1
 #### gave NO error messages
 
+
+##### cd  scRNA_seq\stable_clusterings\68k_PBMC\68k_PBMC_Github
+##### invoke:  python "1-13 NJW_spectral_hierarchical_clustering_trees_all_cells_and_samples.py"
+
 ######################################################################################################
 #                                                                                                    #        
 #    NJW_spectral_hierarchical_clustering_trees_all_cells_and_samples.py                             #
