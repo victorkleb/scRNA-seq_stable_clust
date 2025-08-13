@@ -234,6 +234,7 @@ def  cell_max_frac_contribution_to_SSQ_PR_samples ( log_file, df_counts, df_cell
    
      
   for sample in  sample_list:
+    print (  '\n cell sample ', sample )        
     # print (  '\n cell sample ', sample, file=log_file )        
   
     arr_cell_select_boolean =  df_cell_samples[ sample ].values    
@@ -439,6 +440,9 @@ def identify_cell_outliers_batch_correction( log_file, dict_df_counts_in, dict_d
 ######################################################################################      
 
 ### all cells in arr_cells are in the index of df_cell_samples
+### 2025 07 08  moreover df_cell_samples must be in same order as arr_cells
+### this arises if the input data set results from dropping cells, then any genes with only zero-counts -- specifically in  Sg_analysis_with_input_samples 
+
 
 def 	SSQ_PR_with_input_samples   ( log_file, arr_counts , arr_genes, arr_cells, df_cell_samples_in ):
 
@@ -447,8 +451,6 @@ def 	SSQ_PR_with_input_samples   ( log_file, arr_counts , arr_genes, arr_cells, 
   # print (  '\n\n df_cell_samples_in: \n', df_cell_samples_in , file=log_file )   
  
   df_cell_samples_out = df_cell_samples_in.loc [ df_cell_samples_in.index.isin ( arr_cells ) ]
-  # print (  '\n\n df_cell_samples_out: \n', df_cell_samples_out , file=log_file )   
-
   
   sample_list = df_cell_samples_out.columns.values.tolist()
   df_SSQ_PR_samples_list = []
