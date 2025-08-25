@@ -2,7 +2,7 @@
 <br>
 
 This repository includes
-- Seven folders, each containing programs that make up a customized pipeline to implement the analyses described in the preprint 
+- Seven folders containing the pipelines for the analyses described in the preprint 
 "Finding stable clusterings of single-cell RNA-seq data"
 - The file **Pearson_residuals_utilities_csc.py** of functions called by python programs in the pipeline folders
 <br>
