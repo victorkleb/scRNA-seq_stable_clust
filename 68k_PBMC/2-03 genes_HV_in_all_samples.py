@@ -56,10 +56,6 @@ Sg_dict_input_pkl =  "dict_Sg_stats_and_samples_seq_" + str ( sequence ) + ".pkl
 
 
 
-logfile_txt = out_name + ".txt"
-plot_pdf =  out_name + ".pdf"
-
-
 ####  log output
 logfile_dsn  =  data_path /  logfile_txt
 logfile = open ( logfile_dsn,'w')  	
