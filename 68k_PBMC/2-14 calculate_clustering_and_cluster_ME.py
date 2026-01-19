@@ -44,14 +44,14 @@ data_folder = r"C:/scRNA_seq/stable_clusterings/"
 
 data_subfolder = "68k_PBMC"
 
-data_path = Path ( data_folder + data_subfolder )
+data_path = Path ( data_folder + data_subfolder ) 
 
 ########################################################################################
 
 sequence = 1
 
 
-clusterings_name = "map_hierarchical_clustering_trees_to_data_frames_all_cells_and_samples_seq_" +  str ( sequence ) 
+clusterings_name = "map_hierarchical_clustering_NCut_trees_to_data_frames_all_cells_and_samples_seq_" +  str ( sequence ) 
 
 out_ME_name =  "calculate_clustering_and_cluster_ME_seq_" +  str ( sequence ) 
 
@@ -249,7 +249,7 @@ def cell_ME_stats ( df_clusterings_all_cells, dict_clusterings_renamed_samples )
 ########################################################################################
 
 ##### potential limit which MAY BE less than the number of computed clusters
-max_clusters = 25 # 25 for large, generally, 10 for small
+max_clusters = 25 # larger than published # 25 for large, generally, 10 for small
 
 
 

@@ -9,7 +9,7 @@ This repository includes
 
 There is one folder for each data set discussed in the paper.   Customization includes:
 - program(s) specific to reading and performing initial processing of a data set
-- file references for the specific data -- users will almost certainly have to modify these for their own computer setups  
+- file references for the specific data -- they will require user modification  
 <br>
 
 Pipelines for the small datasets contain 17 or 18 programs.  
@@ -20,10 +20,11 @@ Example: the first program in the Zhengmix4eq folder is
 &nbsp;&nbsp;&nbsp;&nbsp; 01 extract_data_from_package_DuoClustering2018.r
 <br><br>
 
-Pipelines for the large datasets contain 51 to 53 programs.  
+Pipelines for the large datasets contain 51, 52, or 53 programs.  
 They include all programs for the  three iterations described in 
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp; Section 2.5 "Identifying cell and gene outliers in the UMI count matrix: iterative analyses"
+&nbsp;&nbsp;&nbsp;&nbsp; Section 2.8 "Identify and exclude cell and gene outliers for iterative analysis"
+
 <br>
 
 Each program is referenced by an iteration number, a sequence number, and name. 
@@ -46,7 +47,7 @@ https://stackoverflow.com/questions/74627309/why-jupyter-notebook-or-spyder-exec
 
 However, the clustering program 
 <br>
-NJW_spectral_hierarchical_clustering_trees_all_cells_and_samples.py
+NJW_spectral_hierarchical_clustering_NCut_trees_all_cells_and_samples.py
 <br>
 was run from a command line, since it was necessary to specify 
 <br>
@@ -54,8 +55,5 @@ was run from a command line, since it was necessary to specify
 &nbsp;&nbsp;&nbsp;&nbsp; \$env:OMP\_NUM\_THREADS=1
 <br>
 
-to deal with a known bug -- a "memory leak" in scikit-learn's Kmeans function -- and we were unable to find instructions on how to do this in Spyder.  
-<br>
-Consequently, the code on Github for this program includes comments specifying a way to invoke it from a command line with the appropriate file references -- which will require user modification .
-
+to deal with a known bug -- a "memory leak" in scikit-learn's Kmeans function -- and we were unable to find instructions on how to do this in Spyder.
 

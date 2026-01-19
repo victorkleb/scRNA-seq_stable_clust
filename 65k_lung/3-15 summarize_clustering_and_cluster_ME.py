@@ -1,6 +1,5 @@
 
 
-
 ###############################################################
 #                                                             #
 #    summarize_clustering_and_cluster_ME.py                   #           
@@ -13,8 +12,6 @@ import numpy  as np
 
 
 
-import matplotlib.pyplot as plt
-
 
 
 from pathlib import Path
@@ -22,6 +19,7 @@ from pathlib import Path
 import time
 
 import pickle
+
 
 
 import sys
@@ -49,14 +47,14 @@ data_path = Path ( data_folder + data_subfolder )
 sequence = 2
 
 
-clusterings_name = "map_hierarchical_clustering_trees_to_data_frames_all_cells_and_samples_seq_" +  str ( sequence ) 
+clusterings_name = "map_hierarchical_clustering_NCut_trees_to_data_frames_all_cells_and_samples_seq_" +  str ( sequence ) 
+
 in_ME_name =  "calculate_clustering_and_cluster_ME_seq_" +  str ( sequence ) 
 
 out_name =  "summarize_clustering_and_cluster_ME_seq_" +  str ( sequence ) 
 
 
 logfile_txt =  out_name + ".txt"
-plot_jpg =   data_subfolder + "_" +  out_name + ".jpg"
 
 dict_out_pkl =  "dict_" +  out_name +  ".pkl"
 
@@ -69,11 +67,6 @@ dict_clustering_data_frames_pkl =  "dict_" + clusterings_name + ".pkl"
 ####  log output
 logfile_dsn  =  data_path /  logfile_txt
 logfile = open ( logfile_dsn,'w')  	
-
-
-####  plot output 
-plot_dsn = data_path / plot_jpg
-
 
 #### pickle output
 dict_out_dsn = data_path / dict_out_pkl
@@ -213,34 +206,7 @@ dict_out = { 'boxplot_list':boxplot_list, \
 'dict_df_cluster_MR_normalized':dict_df_cluster_MR_normalized }
 
 
-x_list = list ( range ( len ( clusterings_list ) ) )
- 
-fig, ax1 = plt.subplots( figsize=( 8.5, 3.5 ) ) 
-   	   
-ax1.boxplot( boxplot_list, positions=x_list )
-      
 
-for x in  x_list:  
-  clustering = clusterings_list[x]
-  arr_cluster_mean_ME_normalized = dict_cluster_mean_MR_normalized [ clustering ] 
-
-	
-  x_plot = [ x ] * clustering
-  ax1.scatter ( x_plot,  arr_cluster_mean_ME_normalized, marker='o', color='blue', s=20 )       
-
-	
-ax1.set_xticks( x_list )	
-ax1.set_xticklabels( clusterings_list )
-
-ax1.set_xlabel ( 'clusters', fontsize=10 )	 	  
-ax1.set_ylabel ( 'normalized misclassification error', fontsize=8.5 )
-
-ax1.tick_params(labelsize=7.5, which='both' )  
-ax1.axhline ( 0.1,  color='lime', linewidth=1.0 )	 
-ax1.axhline ( 0.05,  color='gold', linewidth=1.0 )	   
-
-
-plt.savefig( plot_dsn, transparent=True, dpi=300 ) 
 
 			  
 f = open( dict_out_dsn, 'wb' )    
