@@ -1,4 +1,5 @@
 
+
 #### https://numpy.org/doc/stable/reference/random/index.html#random-quick-start
 #### https://www.slingacademy.com/article/numpy-understanding-random-generator-uniform-method/
 
@@ -47,10 +48,14 @@ sequence = 1
 
 
 in_name =  "summarize_clustering_and_cluster_ME_seq_" +  str ( sequence ) 
+
 out_name =  "plot_clustering_MED_seq_" +  str ( sequence ) 
+log_name = "plot_clustering_MED_seq_" + str ( sequence ) 
 
 
-logfile_txt =  out_name + ".txt"
+
+
+logfile_txt =  log_name + ".txt"
 
 plt_jpg = data_subfolder + "_" + out_name + ".jpg"
 
@@ -79,6 +84,8 @@ dict_out_dsn = data_path / dict_out_pkl
 dict_in_dsn = data_path / dict_in_pkl
 
 #######################################################################################    	
+
+highlight_row_list = [ 13 ]
 
 bin_list = [ 0.0, 0.01, 0.02, 0.05, 0.1, 0.25, 0.5, 0.9, 100 ]
 bin_labels = [ '0 - 0.01',  '0.01 - 0.02', '0.02 - 0.05', '0.05 - 0.10', '0.10 - 0.25', '0.25 - 0.50', '0.50 - 0.90', '0.90 +' ]
@@ -128,13 +135,15 @@ pd.set_option('display.max_rows', 20)
 
 
 
-clustering_plot_list = clusterings_list [:24]
+clustering_plot_list = clusterings_list # [:24]
 
 folder_no_dash = data_subfolder.replace('_',' ') 
 
 title1 =  folder_no_dash  + "  data:  normalized Misclassification Error Distance (MED)"
- 
-v_inches = 0.13 * ( 5 +  len( clustering_plot_list ) )
+
+disp = 5
+v_inches = 0.075 * ( disp +  len( clustering_plot_list ) )
+bottom_fraction = 0.44 *  disp / ( disp + len( clustering_plot_list ) )  
 
 fig = plt.figure(figsize=( 7., v_inches ), dpi=300 )
 ax = fig.add_subplot(111) # Add a single subplot
@@ -142,6 +151,7 @@ ax = fig.add_subplot(111) # Add a single subplot
   
   
 dict_of_dicts_quantiles = {}
+df_quantiles_list = []  
   
 for clustering in  clustering_plot_list:
   boxplot_values = boxplot_list[ clustering - 2 ]    
@@ -156,23 +166,40 @@ for clustering in  clustering_plot_list:
   dict_quantiles = dict ( zip ( q_list, q_select_list ) ) 
   dict_of_dicts_quantiles[ clustering ] = dict_quantiles  
   
+  df_quantiles_list.append (  pd.DataFrame ( index=[ clustering ], data = dict_quantiles ) )  
+  
   for i in reversed ( range ( 3 ) ):            
     ax.vlines ( q_select_list[i], clustering-0.4, clustering+0.4, colors=q_color_list[i], linestyles='solid',  linewidth=2.0 )	  
    
    
+ax.axvline ( x=0.0, color='black', linewidth=0.2 )	       
 ax.axvline ( x=0.10, color='black', linewidth=0.2 )	      
   
-ax.set_ylabel ( 'number of clusters ', fontsize=7.0 )	
-ax.tick_params(labelsize=7.0, which='both' )    
+for clustering in  highlight_row_list: 
+  ax.axhline ( y=clustering, color='lime', linewidth=0.8 )	
+  
+  
+ax.set_ylabel ( 'number of clusters ', fontsize=5.5 )	
+ax.tick_params(labelsize=5.5, which='both' )    
 	
-ax.set_xlim( -0.05, 1.05 )
+x_ticks = np.linspace( 0, 1, num=11 ) 
+ax.set_xticks ( x_ticks )    
+    
+ax.set_xlim( -0.02, 1.02 )
 ax.set_ylim(  1.1, max( clustering_plot_list )  + 0.9 ) 
 
 ax.invert_yaxis()
 
-  
+ 
+fig.subplots_adjust(  bottom=bottom_fraction, top = 1 - 0.2*bottom_fraction ) 
 
 plt.savefig( plot_dsn, transparent=True, dpi=300 ) 
+
+
+df_quantiles = pd.concat( df_quantiles_list )
+pd.set_option('display.max_rows', len ( df_quantiles ) )
+print ( '\n\n df_quantiles: \n ', df_quantiles, file=logfile )    
+pd.set_option('display.max_rows', 20)
 
 
 f = open( dict_out_dsn, 'wb' )    

@@ -132,31 +132,26 @@ def  analyze_update_node ( node_tuple  ):
   print ( '\n in analyze_update_node' )
   print ( ' node_tuple: ', node_tuple )
   
-  print ( '\n\n in analyze_update_node', file=logfile )
-  print ( ' node_tuple: ', node_tuple, file=logfile )
-  node_as_list = list( node_tuple )
-  # print ( ' node_as_list: ', node_as_list, file=logfile )        
-  
-  depth = node_as_list[0]
-  next_depth = depth + 1  
+  print ( '\n in analyze_update_node', file=logfile )
+  print ( ' node_tuple: ', node_tuple, file=logfile )      
 
-  child_node_list = [ tuple ( [ next_depth ] + node_as_list[ 1: ] + [0] ), tuple ( [ next_depth ] + node_as_list[ 1: ] + [1] ) ]    
-  
-  
+  child_node_list = [ node_tuple + (0,), node_tuple +(1,) ]    
+  print ( ' child_node_list: \n', child_node_list, file=logfile )    
+ 
   aff_array_csr_node = dict_of_dicts_aff_and_cell_lists[ node_tuple ] [ 'aff_array_csr_node'] 
   cell_list_node = dict_of_dicts_aff_and_cell_lists[ node_tuple ] [ 'cell_list_node']   
   
   
 ####  spectral_NJW_2  BEFORE if-condition to suppress small clusterings  
-  print ( '\n before calling spectral_NJW_2')             
+  print ( '\n before calling spectral_NJW_2', file=logfile )             
    
   return_dict = spectral_NJW_2 ( aff_array_csr_node, cell_list_node  )
   df_clustering = return_dict[ 'df_clustering' ]             
-  print ( '\n\n df_clustering: \n', df_clustering, file=logfile )
+  print ( '\n df_clustering: \n', df_clustering, file=logfile )
   
   ser_clustering_value_counts = df_clustering['cluster'].value_counts()  
   
-  print ( '\n\n df_clustering.value_counts \n', ser_clustering_value_counts, file=logfile )  
+  print ( '\n df_clustering.value_counts \n', ser_clustering_value_counts, file=logfile )  
   # print ( '\n\n df_clustering.value_counts \n', ser_clustering_value_counts )    
   
   min_cluster_size = ser_clustering_value_counts.min()
@@ -169,9 +164,9 @@ def  analyze_update_node ( node_tuple  ):
     cell_list_1 = 	df_clustering[['cluster']].loc [ df_clustering['cluster'] ==1 ].index.values.tolist()
     
     H_tree[ node_tuple ]['terminal'] = False  
-    child_node_0 = tuple ( [ next_depth ] + node_as_list[ 1: ] + [0] )
+    child_node_0 = child_node_list[0]
     print ( '\n child_node_0: ', child_node_0, file=logfile )	
-    child_node_1 = tuple ( [ next_depth ] + node_as_list[ 1: ] + [1] )
+    child_node_1 = child_node_list[1]
     print ( ' child_node_1: ', child_node_1, file=logfile )	
     
     H_tree[ child_node_0 ] = { 'analyzed':False, 'cell_list':cell_list_0, 'terminal':False } 
@@ -185,35 +180,43 @@ def  analyze_update_node ( node_tuple  ):
     aff_array_csr_child_1 = ( aff_array_csr_node [ cell_location_child_1_boolean, : ] ) [ :, cell_location_child_1_boolean ]  
     dict_of_dicts_aff_and_cell_lists [ child_node_1 ] = { 'aff_array_csr_node':aff_array_csr_child_1, 'cell_list_node':cell_list_1 }  
   
-    aff_array_csr_Cut = ( aff_array_csr_node [ cell_location_child_0_boolean, : ] ) [ :, cell_location_child_1_boolean ]  
-    print (  '\n    aff_array_csr_Cut,shape: ', aff_array_csr_Cut.shape, file=logfile )	   
-    print (  'aff_array_csr_child_0,shape: ', aff_array_csr_child_0.shape, file=logfile )	   
-    print (  'aff_array_csr_child_1,shape: ', aff_array_csr_child_1.shape, file=logfile )	        
-
+    aff_array_csr_Cut = ( aff_array_csr_node [ cell_location_child_0_boolean, : ] ) [ :, cell_location_child_1_boolean ]
+    aff_array_csr_volume_0 = aff_array_csr_node [ cell_location_child_0_boolean, : ] 
+    aff_array_csr_volume_1 = aff_array_csr_node [ cell_location_child_1_boolean, : ]             
+      
+    print (  '\n aff_array_csr_Cut,shape: ', aff_array_csr_Cut.shape, file=logfile )	   
+    print (  ' aff_array_csr_volume_0,shape: ', aff_array_csr_volume_0.shape, file=logfile )	   
+    print (  ' aff_array_csr_volume_1,shape: ', aff_array_csr_volume_1.shape, file=logfile )	              
+      
     Cut = np.sum ( aff_array_csr_Cut )
-    Vol_0 = np.sum ( aff_array_csr_child_0 )
-    Vol_1 = np.sum ( aff_array_csr_child_1 )    
+    Vol_0 = np.sum ( aff_array_csr_volume_0 )
+    Vol_1 = np.sum ( aff_array_csr_volume_1 )    
+    factor =  ( 1/Vol_0 + 1/Vol_1 )          
+    factor_inv = 1/factor        
     NCut = Cut * ( 1/Vol_0 + 1/Vol_1 )
-    print (  '\n    Cut: ', Cut, file=logfile )	    
-    print (  '  Vol_0: ', Vol_0, file=logfile )	    
-    print (  '  Vol_1: ', Vol_1, file=logfile )	 
-    print (  '   NCut: ', NCut, file=logfile )	         
+     
+    print (  '\n Cut: ', Cut, file=logfile )	    
+    print (  ' Vol_0: ', Vol_0, file=logfile )	    
+    print (  ' Vol_1: ', Vol_1, file=logfile )	 
+    print (  ' factor = ( 1/Vol_0 + 1/Vol_1 ): ', factor, file=logfile )	        
+    print (  ' 1/factor: ', factor_inv, file=logfile )	            
+    print (  ' NCut: ', NCut, file=logfile )	          
  
     H_tree[ node_tuple ] ['Cut_Vol_0_vol_1'] = ( Cut, Vol_0, Vol_1 )     
     for child in  [0,1]:
       H_tree[ child_node_list[ child ] ] ['NCut'] = NCut	        
       H_tree[ child_node_list[ child ] ] ['cum_Ncut'] = NCut	+ H_tree[ node_tuple ] ['cum_Ncut']	  
   
-  
   else:
     H_tree[ node_tuple ]['terminal'] = True     
     print ( '\n node IS terminal ',   file=logfile )     
   
-  H_tree[ node_tuple ]['analyzed'] = True     
+  H_tree[ node_tuple ]['analyzed'] = True   
+
+  pdline ( logfile )  
   
   # del  dict_of_dicts_aff_and_cell_lists[ node_tuple ]  
-  ####################  MUST RESTORE THE DELETE IN PRIOR LINE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
-  
+  ####################  MAY RESTORE THE DELETE IN PRIOR LINE 
 
 
 
@@ -223,31 +226,34 @@ def  analyze_update_node ( node_tuple  ):
 
 def H_cluster_tree ( aff_array_csr, cell_list ):
   
-  H_tree[ (0,0) ] = { 'analyzed':False, 'cell_list':cell_list, 'terminal':False, 'cum_Ncut':0 }
-  dict_of_dicts_aff_and_cell_lists [ (0,0) ] = { 'aff_array_csr_node':aff_array_csr, 'cell_list_node':cell_list }
+  H_tree[ (0,) ] = { 'analyzed':False, 'cell_list':cell_list, 'terminal':False, 'cum_Ncut':0 }
+  dict_of_dicts_aff_and_cell_lists [ (0,) ] = { 'aff_array_csr_node':aff_array_csr, 'cell_list_node':cell_list }
  
   depth = 0 	
   while  ( depth< max_depth_search_parm ):   
-    print ( '\n\n in while loop, depth = ', depth, file=logfile )
-    print ( '\n in while loop, depth = ', depth  )
+    print ( '\n in H_cluster_tree while loop, depth = ', depth, file=logfile )
+    print ( '\n H_cluster_tree in while loop, depth = ', depth  )
 	
-    max_depth = max ( [ node_tuple[0] for  node_tuple in  list ( H_tree.keys() ) ] )
+    max_depth = max ( [ ( len ( node_tuple ) - 1 ) for  node_tuple in  list ( H_tree.keys() ) ] )
     print ( '\n in while loop, max_depth = ', max_depth, file=logfile ) 
     print ( '\n in while loop, max_depth = ', max_depth  )	
 
  
-    depth_node_list = [ k  for k in list ( H_tree.keys() ) if k[0] == depth ]
+    depth_node_list = [ k  for k in list ( H_tree.keys() ) if ( len ( k ) - 1 ) == depth ]
+    print ( '\n depth_node_list = ', depth_node_list, file=logfile ) 
+    
     for node_tuple in depth_node_list:
       analyze_update_node ( node_tuple  )	
         
     depth +=1 		
 
-  pdline( logfile )      
-        
+  pdline( logfile, char='=' )      
+
+  
 ########################################################################################    
 
-min_cluster_size_parm =   100 # exception for 25k_retinal  # 200  #### generally 50 for small data sets (Zhengmix4/8eq, monocytes) 200 for others
-max_depth_search_parm =   10   #### 6 for small, 10 for large
+min_cluster_size_parm = 100 #### generally 50 for small data sets (Zhengmix4/8eq, monocytes) 200 for others
+max_depth_search_parm =  10 #### 6 for small, 10 for large
 
  
 start_time = time.time()
@@ -317,7 +323,7 @@ for sample in sample_list:
     
 dict_H_trees['dict_H_trees_samples'] = dict_H_trees_samples  
   
-#########  
+#######  
   
  
   

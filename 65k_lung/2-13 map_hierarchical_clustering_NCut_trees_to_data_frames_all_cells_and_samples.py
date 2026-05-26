@@ -37,10 +37,10 @@ data_folder = r"C:/scRNA_seq/stable_clusterings/"
 
 data_subfolder = "65k_lung"
 
+
 data_path = Path ( data_folder + data_subfolder )
  
 ######################################################################################## 
-
 
 sequence = 1
 
@@ -70,7 +70,7 @@ dict_data_frames_dsn = data_path / dict_data_frames_pkl
 dict_trees_dsn = data_path / dict_trees_pkl 
 
 #########################################################################################
-  
+	
 def is_ancestor ( node, node_to_check ):
   return_value = False
   
@@ -80,12 +80,11 @@ def is_ancestor ( node, node_to_check ):
   if ( len ( node_as_list ) > len ( ntc_as_list ) ):
     node_sublist = node_as_list[1:]
     ntc_sublist  = ntc_as_list[1:]
-    # print ( '\n in is_ancestor, node_sublist: ', node_sublist, file=logfile )
-    # print ( '\n in is_ancestor, ntc_sublist: ', ntc_sublist, file=logfile )	
-    return_value = ( ntc_sublist == node_sublist [ :len ( ntc_sublist ) ] )
+    # print ( ' in is_ancestor, node_as_list: ', node_as_list, file=logfile )
+    # print ( ' in is_ancestor, ntc_as_list: ', ntc_as_list, file=logfile )	
+    return_value = ( ntc_as_list == node_as_list [ :len ( ntc_as_list ) ] )
 	
   return return_value	
-	
 	
 	
  
@@ -94,9 +93,9 @@ def remove_parent_nodes ( node_list ):
   node_list_copy = node_list.copy()
   child_list = []
   
-  node_list_copy.sort( reverse=True )
-  # print ( '\n in remove_parent_nodes, node_list_copy: ', node_list_copy, file=logfile )
-  
+  ### sort deepest first.  because the input node_list is sorted by ASCENDING depth
+  node_list_copy.reverse()
+  # print ( '\n in remove_parent_nodes, node_list_copy: ', node_list_copy, file=logfile ) 
 
   while ( len ( node_list_copy ) > 0 ):
     child_node = node_list_copy[0]   
@@ -140,17 +139,16 @@ def  map_tree_to_df ( H_cluster_tree ):
   df_clusters_sizes_list = []   
 
 
-  depth_list = list ( set ( [ node[0] for  node in  list ( H_cluster_tree.keys() ) ] ) )
+  depth_list = list ( set ( [ ( len ( node ) - 1 )for  node in  list ( H_cluster_tree.keys() ) ] ) ) 
   depth_list.sort()
   print ( '\n depth_list = ', depth_list, file=logfile )
     
   
   dict_depth_node_list = {}
   for depth in depth_list:
-    node_list = [ node for  node in  list ( H_cluster_tree.keys() ) if  ( node[0] == depth ) ]
+    node_list = [ node for  node in  list ( H_cluster_tree.keys() ) if  ( ( len ( node ) - 1 ) == depth ) ]
     dict_depth_node_list[ depth ] = node_list	
-        
-
+             
 	
   node_data_tuple_list = []  	
   
@@ -159,7 +157,6 @@ def  map_tree_to_df ( H_cluster_tree ):
      		
     for  node in   node_list: 
       depth_distance = H_cluster_tree[ node ] ['cum_Ncut']
-      depth = node[0]
       terminal = H_cluster_tree[ node ] ['terminal'] 
       node_data_tuple_list.append (  ( node, depth, terminal, depth_distance ) ) 
 	
@@ -173,19 +170,21 @@ def  map_tree_to_df ( H_cluster_tree ):
   pdline( logfile ) 
   
 
-
   list_depth_distances = df_node_data['depth_distance'].unique().tolist()
   list_depth_distances.sort()
-
+  
   clusterings_found_list = []   
  
-
   for depth_distance in  list_depth_distances[ :max_n_clusters -1 ] :
+   
     # print ( '\n depth_distance: ', depth_distance, file=logfile )      
     df_node_data_sel = df_node_data[ df_node_data['depth_distance'] <= depth_distance ]
-    sel_node_list = df_node_data_sel['node'].values.tolist()		
+    sel_node_list = df_node_data_sel['node'].values.tolist()	
+    # print ( '\n sel_node_list: ', sel_node_list, file=logfile )   
+ 	
     clustering_node_list = remove_parent_nodes ( sel_node_list )
-	
+    # print ( '\n clustering_node_list: ', clustering_node_list, file=logfile )   	
+    
     return_dict = node_list_to_clusters ( H_cluster_tree, clustering_node_list )
     df_clustering = return_dict [ 'df_clustering' ]    
     # print ( '\n  df_clustering: \n', df_clustering, file=logfile )
@@ -198,7 +197,7 @@ def  map_tree_to_df ( H_cluster_tree ):
       df_clusterings_list.append ( df_clustering )	  
 	  
       df_clust_sizes = df_clustering[ n_clusters ].value_counts().to_frame ( name = n_clusters )			  
-      #### print ( '\n\n df_clust_sizes \n', df_clust_sizes, file=logfile )  		
+      ### print ( '\n\n df_clust_sizes \n', df_clust_sizes, file=logfile )  		
       df_clusters_sizes_list.append ( df_clust_sizes )
       
       dict_clusterings_nodes [ n_clusters ] = dict_clustering_nodes
@@ -207,7 +206,7 @@ def  map_tree_to_df ( H_cluster_tree ):
       print ('\n\n error: clustering with ', n_clusters, ' found more than once', file=logfile )
       print ('\n\n error: clustering with ', n_clusters, ' found more than once'  )	 
    
-    # pdline ( logfile ) 
+#######pdline ( logfile ) 
 		
         
   df_clusterings = pd.concat ( df_clusterings_list, axis=1 )    
@@ -252,8 +251,10 @@ if ( len( return_dict ) > 0 ):
     	
   df_clusters_sizes = return_dict['df_clusters_sizes']
   pd.set_option('display.max_rows', df_clusters_sizes.shape[0] )  
+  pd.set_option('display.max_columns', df_clusters_sizes.shape[1] )  
   print ( '\n\n df_clusters_sizes: \n', df_clusters_sizes, file=logfile )     
   pd.set_option('display.max_rows', 10)
+  pd.set_option('display.max_columns', 30)  
 
 	  
   dict_clusterings_nodes = return_dict[ 'dict_clusterings_nodes' ]
@@ -322,7 +323,7 @@ for sample in sample_list:
 
 
 
-#########
+#######
 
 end_time = time.time()
 elapsed = end_time - start_time
