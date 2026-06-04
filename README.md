@@ -12,7 +12,7 @@ There is one folder for each data set discussed in the paper.   Customization in
 - file references for the specific data -- they will require user modification  
 <br>
 
-Pipelines for the small datasets contain 17 or 18 programs.  
+Pipelines for the small datasets contain 17 or 19 programs.  
 Programs in these pipelines are referenced by a sequence number and name. 
 
 Example: the first program in the Zhengmix4eq folder is 
@@ -20,7 +20,7 @@ Example: the first program in the Zhengmix4eq folder is
 &nbsp;&nbsp;&nbsp;&nbsp; 01 extract_data_from_package_DuoClustering2018.r
 <br><br>
 
-Pipelines for the large datasets contain 51, 52, or 53 programs.  
+Pipelines for the large datasets contain 52 or 54 programs.  
 They include all programs for the  three iterations described in 
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp; Section 2.8 "Identify and exclude cell and gene outliers for iterative analysis"
