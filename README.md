@@ -1,15 +1,29 @@
  # scRNA-seq_stable_clust
 <br>
 
-This repository includes
-- Seven folders containing the pipelines for the analyses described in the preprint 
-"Finding stable clusterings of single-cell RNA-seq data"
-- The file **Pearson_residuals_utilities_csc.py** of functions called by python programs in the pipeline folders
+This repository contains  **Extended data** for the article  <ins>Finding stable clusterings 
+of single-cell RNA-seq data</ins>.  There are two groups of data:
+- Appendices
+- Analysis code  
 <br>
 
-There is one folder for each data set discussed in the paper.   Customization includes:
+**Appendices**
+
+The file Appendices.pdf provides derivations of closed-form expressions
+  - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this identifies highly variable genes
+  - Appendix B: an expression for a cell's contribution to the sum of squares of a gene's Pearson residuals; this identifies outlier cells that make exceptionally large contributions to the sum of squares a gene's Pearson residuals
+<br>
+
+**Analysis code** 
+- For each of the seven data sets studied in the article there is a program folder containing the complete process 
+pipeline
+- The file **Pearson_residuals_utilities_csc.py** contains functions used by programs in the pipeline folders
+<br>
+
+The folder for each data set is customized with
 - program(s) specific to reading and performing initial processing of a data set
-- file references for the specific data -- they will require user modification  
+- data-specific file references that will require user modification  
+- program(s) to compare clusterings reviewed in the article with published results
 <br>
 
 Pipelines for the small datasets contain 17 or 19 programs.  
