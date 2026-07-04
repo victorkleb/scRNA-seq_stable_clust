@@ -10,7 +10,7 @@ of single-cell RNA-seq data</ins>.  There are two groups of data:
 **Appendices**
 
 The file Appendices.pdf provides derivations of closed-form expressions
-  - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this identifies highly variable genes
+  - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this characterizes a gene's variability
   - Appendix B: an expression for a cell's contribution to the sum of squares of a gene's Pearson residuals; this identifies outlier cells that make exceptionally large contributions to the sum of squares a gene's Pearson residuals
 <br>
 
