@@ -10,8 +10,8 @@ of single-cell RNA-seq data</ins>.  There are two groups of data:
 **Appendices**
 
 The file Appendices.pdf provides derivations of closed-form expressions
-  - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this characterizes a gene's variability
-  - Appendix B: an expression for a cell's contribution to the sum of squares of a gene's Pearson residuals; this identifies outlier cells that make exceptionally large contributions to the sum of squares a gene's Pearson residuals
+  - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this characterizes the gene's variability
+  - Appendix B: an expression for a cell's contribution to the sum of squares of a gene's Pearson residuals; this identifies outlier cells that make exceptionally large contributions to the sum of squares a gene's Pearson residuals -- that is, to the gene's variability
 <br>
 
 **Analysis code** 
@@ -21,8 +21,8 @@ pipeline
 <br>
 
 The folder for each data set is customized with
-- program(s) specific to reading and performing initial processing of a data set
-- data-specific file references that will require user modification  
+- programs for file input and preparation
+- file references that will require user modification  
 - program(s) to compare clusterings reviewed in the article with published results
 <br>
 
@@ -35,11 +35,7 @@ Example: the first program in the Zhengmix4eq folder is
 <br><br>
 
 Pipelines for the large datasets contain 52 or 54 programs.  
-They include all programs for the  three iterations described in 
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp; Section 2.8 "Identify and exclude cell and gene outliers for iterative analysis"
-
-<br>
+They include all programs for the  three iterations described in Section 2.8 "Identify and exclude cell and gene outliers for iterative analyses"
 
 Each program is referenced by an iteration number, a sequence number, and name. 
 
