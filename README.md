@@ -19,10 +19,10 @@ The document Appendices.pdf provides derivations of closed-form expressions.
 - The file **Pearson_residuals_utilities_csc.py** contains functions used by these programs.
 <br>
 
-The folder for each data set is customized with
+Folders for the data sets are customized with
 - programs for file input and preparation
 - file references that will require user modification  
-- program(s) to compare clusterings reviewed in the article with published results
+- programs to compare clusterings reviewed in the article with published results
 <br>
 
 Pipelines for the small datasets contain 17 or 19 programs.  
@@ -43,7 +43,7 @@ Examples: in the folders 65k\_lung and 100k\_cancer, the first program for the s
 &nbsp;&nbsp;&nbsp;&nbsp; 2-01 filter_gene_and_cell_outliers_batch_correction.py
 <br><br>
 
-Most programs create .txt output files.  These include intermediate results and may be useful for audit, for understanding computations, and -- if necessary -- for debugging.
+Most programs create .txt output files.  These include intermediate results and may be useful for audit, for understanding computations, and for debugging.
 <br>
 
 Although most of the functions in  **Pearson_residuals_utilities_csc.py** can write to the .txt output files, the print statements are generally commented out.
