@@ -9,7 +9,7 @@ of single-cell RNA-seq data</ins>.  There are two groups of data:
 
 **Appendices**
 
-The document Appendices.pdf provides derivations of closed-form expressions.
+The document Appendices.pdf provides derivations of two closed-form expressions.
   - Appendix A: an expression for the mean sum of squares of a gene's Pearson residuals with a Poisson model; this characterizes the gene's variability
   - Appendix B: an expression for a cell's contribution to the sum of squares of a gene's Pearson residuals; this can identify outlier cells that make exceptionally large contributions to the gene's variability
 <br>
@@ -25,7 +25,7 @@ Folders for the data sets are customized with
 - programs to compare clusterings reviewed in the article with published results
 <br>
 
-Pipelines for the small datasets contain 17 or 19 programs.  
+Pipelines for the small data sets contain 17 or 19 programs.  
 Programs in these pipelines are referenced by a sequence number and name. 
 
 Example: the first program in the Zhengmix4eq folder is 
@@ -33,7 +33,7 @@ Example: the first program in the Zhengmix4eq folder is
 &nbsp;&nbsp;&nbsp;&nbsp; 01 extract_data_from_package_DuoClustering2018.r
 <br><br>
 
-Pipelines for the large datasets contain 52 or 54 programs.  
+Pipelines for the large data sets contain 52 or 54 programs.  
 They include all programs for the  three iterations described in Section 2.8 "Identify and exclude cell and gene outliers for iterative analyses."
 
 Each program is referenced by an iteration number, a sequence number, and name. 
